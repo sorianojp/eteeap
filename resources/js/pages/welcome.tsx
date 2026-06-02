@@ -25,9 +25,16 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { dashboard, login } from '@/routes';
+import { dashboard } from '@/routes';
 
 type FormalEducation = {
     course: string;
@@ -143,6 +150,150 @@ const documentChecklist = [
     'Accomplished ETEEAP application form',
 ];
 
+const samplePlaceholders: Record<string, string> = {
+    last_name: 'e.g. Dela Cruz',
+    first_name: 'e.g. Juan',
+    middle_name: 'e.g. Santos',
+    address: 'e.g. 123 Mabini Street, Cebu City',
+    zip_code: 'e.g. 6000',
+    telephone: 'e.g. 0917 123 4567',
+    birth_date: 'e.g. 1990-01-15',
+    birthplace: 'e.g. Manila',
+    civil_status: 'e.g. Single',
+    sex: 'e.g. Female',
+    nationality: 'e.g. Filipino',
+    languages: 'e.g. Filipino, English, Cebuano',
+    first_priority: 'e.g. Bachelor of Science in Social Work',
+    second_priority: 'e.g. Bachelor of Science in Psychology',
+    third_priority: 'e.g. Bachelor of Public Administration',
+    application_goals:
+        'e.g. To complete my degree and strengthen my professional qualifications.',
+    learning_time_plan:
+        'e.g. I can dedicate 8 hours every weekend for portfolio preparation and learning activities.',
+    overseas_accreditation_plan:
+        'e.g. I plan to visit the Philippines in July 2026 for assessment requirements.',
+    hobbies: 'e.g. Reading, community organizing, coaching youth activities',
+    special_skills: 'e.g. Case documentation, counseling, report writing',
+    work_related_learning:
+        'e.g. Led a community outreach project and learned program coordination.',
+    volunteer_activities:
+        'e.g. Volunteer counselor for barangay youth development programs',
+    travels:
+        'e.g. Visited Davao for a work conference on community-based services.',
+    degree_contribution_essay:
+        'e.g. Earning this degree will help me serve my workplace and community with stronger professional competence.',
+    declaration_place: 'e.g. Cebu City',
+    declaration_day: 'e.g. 15',
+    declaration_month: 'e.g. June 2026',
+    applicant_signature: 'e.g. Juan S. Dela Cruz',
+    community_tax_certificate: 'e.g. CTC No. 12345678',
+    issued_at: 'e.g. Cebu City Hall',
+};
+
+function samplePlaceholder(id: string, label: string): string {
+    if (samplePlaceholders[id]) {
+        return samplePlaceholders[id];
+    }
+
+    const normalizedLabel = label.toLowerCase();
+
+    if (
+        normalizedLabel.includes('course') ||
+        normalizedLabel.includes('degree')
+    ) {
+        return 'e.g. Bachelor of Science in Social Work';
+    }
+
+    if (normalizedLabel.includes('school')) {
+        return 'e.g. University of Cebu, Cebu City';
+    }
+
+    if (normalizedLabel.includes('inclusive dates')) {
+        return 'e.g. 2018 - 2022';
+    }
+
+    if (normalizedLabel.includes('training program')) {
+        return 'e.g. Basic Counseling Skills Workshop';
+    }
+
+    if (normalizedLabel.includes('certificate obtained')) {
+        return 'e.g. Certificate of Completion';
+    }
+
+    if (normalizedLabel.includes('certification examination')) {
+        return 'e.g. Civil Service Professional Examination';
+    }
+
+    if (normalizedLabel.includes('certifying agency')) {
+        return 'e.g. Civil Service Commission';
+    }
+
+    if (normalizedLabel.includes('date certified')) {
+        return 'e.g. 2024-03-15';
+    }
+
+    if (normalizedLabel.includes('rating')) {
+        return 'e.g. 88%';
+    }
+
+    if (
+        normalizedLabel.includes('post') ||
+        normalizedLabel.includes('designation')
+    ) {
+        return 'e.g. Community Development Officer';
+    }
+
+    if (normalizedLabel.includes('company')) {
+        return 'e.g. ABC Social Services, Cebu City';
+    }
+
+    if (normalizedLabel.includes('employment status')) {
+        return 'e.g. Full-time regular';
+    }
+
+    if (normalizedLabel.includes('supervisor')) {
+        return 'e.g. Maria R. Santos, Program Manager';
+    }
+
+    if (normalizedLabel.includes('references')) {
+        return 'e.g. Ana Reyes, Pedro Cruz, Liza Ramos';
+    }
+
+    if (normalizedLabel.includes('reason')) {
+        return 'e.g. Accepted a role with broader responsibilities.';
+    }
+
+    if (normalizedLabel.includes('responsibilities')) {
+        return 'e.g. Managed client intake, prepared case reports, and coordinated referrals.';
+    }
+
+    if (normalizedLabel.includes('award conferred')) {
+        return 'e.g. Outstanding Employee Award';
+    }
+
+    if (normalizedLabel.includes('organization')) {
+        return 'e.g. City Social Welfare Office';
+    }
+
+    if (normalizedLabel.includes('date awarded')) {
+        return 'e.g. 2023-12-10';
+    }
+
+    if (normalizedLabel.includes('description')) {
+        return 'e.g. Authored a community case management handbook.';
+    }
+
+    if (normalizedLabel.includes('date accomplished')) {
+        return 'e.g. 2024-05-20';
+    }
+
+    if (normalizedLabel.includes('publishing agency')) {
+        return 'e.g. Philippine Association of Social Workers';
+    }
+
+    return `e.g. ${label}`;
+}
+
 function Field({
     id,
     label,
@@ -166,7 +317,7 @@ function Field({
                 className={fieldClass}
                 id={id}
                 name={id}
-                placeholder={placeholder}
+                placeholder={placeholder ?? samplePlaceholder(id, label)}
                 required={required}
                 type={type}
             />
@@ -194,7 +345,7 @@ function TextareaField({
                 className={textareaClass}
                 id={id}
                 name={id}
-                placeholder={placeholder}
+                placeholder={placeholder ?? samplePlaceholder(id, label)}
                 required={required}
                 rows={rows}
             />
@@ -302,18 +453,54 @@ function Repeater<T extends object>({
     );
 }
 
+function SelectField({
+    id,
+    label,
+    options,
+    placeholder,
+}: {
+    id: string;
+    label: string;
+    options: string[];
+    placeholder?: string;
+}) {
+    return (
+        <div className="grid gap-2">
+            <Label htmlFor={id}>{label}</Label>
+            <Select name={id}>
+                <SelectTrigger className="w-full" id={id}>
+                    <SelectValue
+                        placeholder={
+                            placeholder ?? samplePlaceholder(id, label)
+                        }
+                    />
+                </SelectTrigger>
+                <SelectContent>
+                    {options.map((option) => (
+                        <SelectItem key={option} value={option}>
+                            {option}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+    );
+}
+
 function ControlledInput({
     id,
     label,
     value,
     onChange,
     placeholder,
+    type = 'text',
 }: {
     id: string;
     label: string;
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
+    type?: string;
 }) {
     return (
         <div className="grid gap-2">
@@ -323,7 +510,8 @@ function ControlledInput({
                 id={id}
                 name={id}
                 onChange={(event) => onChange(event.target.value)}
-                placeholder={placeholder}
+                placeholder={placeholder ?? samplePlaceholder(id, label)}
+                type={type}
                 value={value}
             />
         </div>
@@ -336,12 +524,14 @@ function ControlledTextarea({
     value,
     onChange,
     rows = 4,
+    placeholder,
 }: {
     id: string;
     label: string;
     value: string;
     onChange: (value: string) => void;
     rows?: number;
+    placeholder?: string;
 }) {
     return (
         <div className="grid gap-2">
@@ -351,6 +541,7 @@ function ControlledTextarea({
                 id={id}
                 name={id}
                 onChange={(event) => onChange(event.target.value)}
+                placeholder={placeholder ?? samplePlaceholder(id, label)}
                 rows={rows}
                 value={value}
             />
@@ -535,7 +726,7 @@ export default function Welcome() {
                             </h1>
                         </div>
                         <nav className="flex flex-wrap items-center gap-2">
-                            {auth.user ? (
+                            {auth.user && (
                                 <>
                                     <Button asChild variant="outline">
                                         <Link href="/registrations">
@@ -546,12 +737,6 @@ export default function Welcome() {
                                         <Link href={dashboard()}>
                                             Dashboard
                                         </Link>
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Button asChild variant="ghost">
-                                        <Link href={login()}>Admin log in</Link>
                                     </Button>
                                 </>
                             )}
@@ -725,11 +910,26 @@ export default function Welcome() {
                                     <Field id="birthplace" label="Birthplace" />
                                 </div>
                                 <div className="mt-4 grid gap-4 md:grid-cols-4">
-                                    <Field
+                                    <SelectField
                                         id="civil_status"
                                         label="Civil status"
+                                        options={[
+                                            'Single',
+                                            'Married',
+                                            'Widowed',
+                                            'Separated',
+                                            'Divorced',
+                                        ]}
                                     />
-                                    <Field id="sex" label="Sex" />
+                                    <SelectField
+                                        id="sex"
+                                        label="Sex"
+                                        options={[
+                                            'Female',
+                                            'Male',
+                                            'Prefer not to say',
+                                        ]}
+                                    />
                                     <Field
                                         id="nationality"
                                         label="Nationality"
@@ -933,6 +1133,7 @@ export default function Welcome() {
                                                             certifiedDate,
                                                         })
                                                     }
+                                                    type="date"
                                                     value={item.certifiedDate}
                                                 />
                                                 <ControlledInput
@@ -1128,6 +1329,7 @@ export default function Welcome() {
                                                                 date,
                                                             })
                                                         }
+                                                        type="date"
                                                         value={item.date}
                                                     />
                                                 </div>
@@ -1164,6 +1366,7 @@ export default function Welcome() {
                                                                 date,
                                                             })
                                                         }
+                                                        type="date"
                                                         value={item.date}
                                                     />
                                                     <ControlledInput
