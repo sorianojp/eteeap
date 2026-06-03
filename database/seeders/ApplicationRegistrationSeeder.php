@@ -58,14 +58,16 @@ class ApplicationRegistrationSeeder extends Seeder
                         [
                             'course' => 'Associate in Community Development',
                             'school' => 'Cebu City Community College, Cebu City',
-                            'dates' => '2010 - 2012',
+                            'date_from' => '2010-06-01',
+                            'date_to' => '2012-03-31',
                         ],
                     ],
                     'non_formal_education' => [
                         [
                             'title' => 'Basic Counseling Skills Workshop',
                             'certificate' => 'Certificate of Completion',
-                            'dates' => 'March 2023',
+                            'date_from' => '2023-03-01',
+                            'date_to' => '2023-03-31',
                         ],
                     ],
                     'certifications' => [
@@ -79,7 +81,8 @@ class ApplicationRegistrationSeeder extends Seeder
                     'work_experiences' => [
                         [
                             'post' => 'Community Development Officer',
-                            'dates' => '2015 - Present',
+                            'date_from' => '2015-01-01',
+                            'date_to' => now()->toDateString(),
                             'company' => 'ABC Social Services Foundation, Cebu City',
                             'status' => 'Full-time regular',
                             'supervisor' => 'Maria R. Santos, Program Manager',

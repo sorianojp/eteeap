@@ -100,7 +100,8 @@ const repeaterSections = [
         fields: [
             { label: 'Course or degree program', key: 'course' },
             { label: 'School and address', key: 'school' },
-            { label: 'Inclusive dates', key: 'dates' },
+            { label: 'From', key: 'date_from' },
+            { label: 'To', key: 'date_to' },
         ],
     },
     {
@@ -109,7 +110,8 @@ const repeaterSections = [
         fields: [
             { label: 'Training program', key: 'title' },
             { label: 'Certificate obtained', key: 'certificate' },
-            { label: 'Inclusive dates', key: 'dates' },
+            { label: 'From', key: 'date_from' },
+            { label: 'To', key: 'date_to' },
         ],
     },
     {
@@ -127,7 +129,8 @@ const repeaterSections = [
         key: 'work_experiences',
         fields: [
             { label: 'Post or designation', key: 'post' },
-            { label: 'Inclusive dates', key: 'dates' },
+            { label: 'Employment from', key: 'date_from' },
+            { label: 'Employment to', key: 'date_to' },
             { label: 'Company name and address', key: 'company' },
             { label: 'Employment status', key: 'status' },
             { label: 'Immediate supervisor', key: 'supervisor' },

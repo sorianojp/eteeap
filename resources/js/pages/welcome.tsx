@@ -39,13 +39,15 @@ import { dashboard } from '@/routes';
 type FormalEducation = {
     course: string;
     school: string;
-    dates: string;
+    date_from: string;
+    date_to: string;
 };
 
 type Training = {
     title: string;
     certificate: string;
-    dates: string;
+    date_from: string;
+    date_to: string;
 };
 
 type Certification = {
@@ -57,7 +59,8 @@ type Certification = {
 
 type WorkExperience = {
     post: string;
-    dates: string;
+    date_from: string;
+    date_to: string;
     company: string;
     status: string;
     supervisor: string;
@@ -99,13 +102,15 @@ const textareaClass =
 const formalEducationEmpty: FormalEducation = {
     course: '',
     school: '',
-    dates: '',
+    date_from: '',
+    date_to: '',
 };
 
 const trainingEmpty: Training = {
     title: '',
     certificate: '',
-    dates: '',
+    date_from: '',
+    date_to: '',
 };
 
 const certificationEmpty: Certification = {
@@ -117,7 +122,8 @@ const certificationEmpty: Certification = {
 
 const workEmpty: WorkExperience = {
     post: '',
-    dates: '',
+    date_from: '',
+    date_to: '',
     company: '',
     status: '',
     supervisor: '',
@@ -1002,7 +1008,7 @@ export default function Welcome() {
                                         emptyItem={formalEducationEmpty}
                                         items={formalEducation}
                                         renderItem={(item, index, update) => (
-                                            <div className="grid gap-4 md:grid-cols-3">
+                                            <div className="grid gap-4 md:grid-cols-4">
                                                 <ControlledInput
                                                     id={`formal_course_${index}`}
                                                     label="Course or degree program"
@@ -1026,15 +1032,28 @@ export default function Welcome() {
                                                     value={item.school}
                                                 />
                                                 <ControlledInput
-                                                    id={`formal_dates_${index}`}
-                                                    label="Inclusive dates"
-                                                    onChange={(dates) =>
+                                                    id={`formal_date_from_${index}`}
+                                                    label="From"
+                                                    onChange={(date_from) =>
                                                         update({
                                                             ...item,
-                                                            dates,
+                                                            date_from,
                                                         })
                                                     }
-                                                    value={item.dates}
+                                                    type="date"
+                                                    value={item.date_from}
+                                                />
+                                                <ControlledInput
+                                                    id={`formal_date_to_${index}`}
+                                                    label="To"
+                                                    onChange={(date_to) =>
+                                                        update({
+                                                            ...item,
+                                                            date_to,
+                                                        })
+                                                    }
+                                                    type="date"
+                                                    value={item.date_to}
                                                 />
                                             </div>
                                         )}
@@ -1047,7 +1066,7 @@ export default function Welcome() {
                                         emptyItem={trainingEmpty}
                                         items={trainings}
                                         renderItem={(item, index, update) => (
-                                            <div className="grid gap-4 md:grid-cols-3">
+                                            <div className="grid gap-4 md:grid-cols-4">
                                                 <ControlledInput
                                                     id={`training_title_${index}`}
                                                     label="Training program"
@@ -1071,15 +1090,28 @@ export default function Welcome() {
                                                     value={item.certificate}
                                                 />
                                                 <ControlledInput
-                                                    id={`training_dates_${index}`}
-                                                    label="Inclusive dates"
-                                                    onChange={(dates) =>
+                                                    id={`training_date_from_${index}`}
+                                                    label="From"
+                                                    onChange={(date_from) =>
                                                         update({
                                                             ...item,
-                                                            dates,
+                                                            date_from,
                                                         })
                                                     }
-                                                    value={item.dates}
+                                                    type="date"
+                                                    value={item.date_from}
+                                                />
+                                                <ControlledInput
+                                                    id={`training_date_to_${index}`}
+                                                    label="To"
+                                                    onChange={(date_to) =>
+                                                        update({
+                                                            ...item,
+                                                            date_to,
+                                                        })
+                                                    }
+                                                    type="date"
+                                                    value={item.date_to}
                                                 />
                                             </div>
                                         )}
@@ -1169,16 +1201,28 @@ export default function Welcome() {
                                                     value={item.post}
                                                 />
                                                 <ControlledInput
-                                                    id={`work_dates_${index}`}
-                                                    label="Inclusive dates of employment"
-                                                    onChange={(dates) =>
+                                                    id={`work_date_from_${index}`}
+                                                    label="Employment from"
+                                                    onChange={(date_from) =>
                                                         update({
                                                             ...item,
-                                                            dates,
+                                                            date_from,
                                                         })
                                                     }
-                                                    placeholder="From - To"
-                                                    value={item.dates}
+                                                    type="date"
+                                                    value={item.date_from}
+                                                />
+                                                <ControlledInput
+                                                    id={`work_date_to_${index}`}
+                                                    label="Employment to"
+                                                    onChange={(date_to) =>
+                                                        update({
+                                                            ...item,
+                                                            date_to,
+                                                        })
+                                                    }
+                                                    type="date"
+                                                    value={item.date_to}
                                                 />
                                                 <ControlledInput
                                                     id={`work_company_${index}`}
