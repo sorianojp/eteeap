@@ -70,7 +70,6 @@ class ApplicationRegistrationController extends Controller
             'first_priority' => ['required', 'string', 'max:255'],
             'application_goals' => ['required', 'string'],
             'degree_contribution_essay' => ['required', 'string'],
-            'applicant_signature' => ['required', 'string', 'max:255'],
             'documents' => ['nullable', 'array'],
             'documents.*.name' => ['required_with:documents', 'string', 'max:255'],
             'documents.*.checked' => ['nullable', 'boolean'],

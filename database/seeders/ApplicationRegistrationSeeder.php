@@ -122,12 +122,6 @@ class ApplicationRegistrationSeeder extends Seeder
                     'volunteer_activities' => 'Volunteer counselor for barangay youth development programs and disaster response coordination.',
                     'travels' => 'Visited Davao for a work conference on community-based services and learned new client assessment practices.',
                     'degree_contribution_essay' => 'Earning this degree will help me serve my workplace and community with stronger professional competence, better documentation practices, and improved leadership capacity.',
-                    'declaration_place' => 'Cebu City',
-                    'declaration_day' => '2',
-                    'declaration_month' => 'June 2026',
-                    'applicant_signature' => 'Juan S. Dela Cruz',
-                    'community_tax_certificate' => 'CTC No. 12345678',
-                    'issued_at' => 'Cebu City Hall',
                 ],
                 'documents' => [
                     [

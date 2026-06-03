@@ -93,15 +93,6 @@ const lifelongFields: FieldDefinition[] = [
     },
 ];
 
-const declarationFields: FieldDefinition[] = [
-    { label: 'Done in', key: 'declaration_place' },
-    { label: 'Day', key: 'declaration_day' },
-    { label: 'Month', key: 'declaration_month' },
-    { label: 'Printed name and signature', key: 'applicant_signature' },
-    { label: 'Community tax certificate', key: 'community_tax_certificate' },
-    { label: 'Issued at', key: 'issued_at' },
-];
-
 const repeaterSections = [
     {
         title: 'Formal Education',
@@ -450,13 +441,6 @@ export default function RegistrationShow({
                 <DetailSection title="Lifelong Learning Experience">
                     <DetailGrid
                         fields={lifelongFields}
-                        payload={registration.payload}
-                    />
-                </DetailSection>
-
-                <DetailSection title="Declaration">
-                    <DetailGrid
-                        fields={declarationFields}
                         payload={registration.payload}
                     />
                 </DetailSection>

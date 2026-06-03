@@ -182,12 +182,6 @@ const samplePlaceholders: Record<string, string> = {
         'e.g. Visited Davao for a work conference on community-based services.',
     degree_contribution_essay:
         'e.g. Earning this degree will help me serve my workplace and community with stronger professional competence.',
-    declaration_place: 'e.g. Cebu City',
-    declaration_day: 'e.g. 15',
-    declaration_month: 'e.g. June 2026',
-    applicant_signature: 'e.g. Juan S. Dela Cruz',
-    community_tax_certificate: 'e.g. CTC No. 12345678',
-    issued_at: 'e.g. Cebu City Hall',
 };
 
 function samplePlaceholder(id: string, label: string): string {
@@ -585,7 +579,7 @@ export default function Welcome() {
             ['Work', 'work'],
             ['Recognition', 'recognition'],
             ['Lifelong', 'lifelong'],
-            ['Declaration', 'declaration'],
+            ['Documents', 'documents'],
         ],
         [],
     );
@@ -1432,37 +1426,10 @@ export default function Welcome() {
 
                             <Section
                                 icon={<CheckCircle2 className="size-5" />}
-                                id="declaration"
-                                title="Declaration and Documents"
+                                id="documents"
+                                title="Required Documents"
                             >
-                                <div className="grid gap-4 md:grid-cols-3">
-                                    <Field
-                                        id="declaration_place"
-                                        label="Done in"
-                                    />
-                                    <Field
-                                        id="declaration_day"
-                                        label="Day"
-                                        type="number"
-                                    />
-                                    <Field
-                                        id="declaration_month"
-                                        label="Month"
-                                    />
-                                </div>
-                                <div className="mt-4 grid gap-4 md:grid-cols-3">
-                                    <Field
-                                        id="applicant_signature"
-                                        label="Printed name and signature"
-                                        required
-                                    />
-                                    <Field
-                                        id="community_tax_certificate"
-                                        label="Community tax certificate"
-                                    />
-                                    <Field id="issued_at" label="Issued at" />
-                                </div>
-                                <div className="mt-6 rounded-lg border bg-muted/30 p-4">
+                                <div className="rounded-lg border bg-muted/30 p-4">
                                     <h3 className="font-medium">
                                         Required Documents
                                     </h3>
