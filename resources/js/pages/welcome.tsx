@@ -815,10 +815,7 @@ export default function Welcome() {
 
                             <div className="grid gap-5 sm:grid-cols-[1fr_180px] sm:items-start">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground uppercase">
-                                        Republic of the Philippines
-                                    </p>
-                                    <h2 className="mt-2 text-2xl font-semibold">
+                                    <h2 className="text-2xl font-semibold">
                                         ETEEAP Applicant Profile
                                     </h2>
                                     <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">

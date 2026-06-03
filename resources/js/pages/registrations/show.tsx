@@ -1,9 +1,12 @@
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowLeft,
+    CalendarDays,
     CheckCircle2,
-    ClipboardList,
     FileText,
+    GraduationCap,
+    Phone,
+    UserRound,
     XCircle,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -17,6 +20,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 type DetailPayload = Record<string, unknown>;
 
@@ -220,6 +224,31 @@ function formatFileSize(size?: number | null) {
     return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function submittedDocumentCount(documents: DetailDocument[]) {
+    return documents.filter((document) => document.checked || document.file_url)
+        .length;
+}
+
+function SummaryTile({
+    icon,
+    label,
+    value,
+}: {
+    icon: ReactNode;
+    label: string;
+    value: ReactNode;
+}) {
+    return (
+        <div className="rounded-md border bg-muted/20 p-3">
+            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                {icon}
+                {label}
+            </div>
+            <div className="text-sm font-medium">{value}</div>
+        </div>
+    );
+}
+
 function DetailGrid({
     fields,
     payload,
@@ -230,7 +259,10 @@ function DetailGrid({
     return (
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {fields.map((field) => (
-                <div className="rounded-md border p-3" key={field.key}>
+                <div
+                    className="rounded-md border bg-background p-3"
+                    key={field.key}
+                >
                     <p className="text-xs font-medium text-muted-foreground">
                         {field.label}
                     </p>
@@ -283,46 +315,79 @@ export default function RegistrationShow({
 }: {
     registration: Registration;
 }) {
+    const documentCount = submittedDocumentCount(registration.documents);
+
     return (
         <>
             <Head title={`Registration #${registration.id}`} />
             <div className="flex flex-1 flex-col gap-4 p-4">
                 <Card>
-                    <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div className="flex items-start gap-3">
-                            {registration.id_picture_url ? (
-                                <img
-                                    alt={`${registration.applicant_name} ID picture`}
-                                    className="size-20 rounded-md border object-cover"
-                                    src={registration.id_picture_url}
-                                />
-                            ) : (
-                                <span className="flex size-20 items-center justify-center rounded-md border bg-muted text-muted-foreground">
-                                    <ClipboardList className="size-8" />
-                                </span>
-                            )}
-                            <div>
-                                <CardTitle>
-                                    {registration.applicant_name}
-                                </CardTitle>
-                                <CardDescription>
-                                    Submitted{' '}
-                                    {formatDate(registration.submitted_at)}
-                                </CardDescription>
+                    <CardHeader className="gap-4">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                            <div className="flex items-start gap-4">
+                                {registration.id_picture_url ? (
+                                    <img
+                                        alt={`${registration.applicant_name} ID picture`}
+                                        className="size-24 rounded-md border object-cover"
+                                        src={registration.id_picture_url}
+                                    />
+                                ) : (
+                                    <span className="flex size-24 items-center justify-center rounded-md border bg-muted text-muted-foreground">
+                                        <UserRound className="size-9" />
+                                    </span>
+                                )}
+                                <div className="min-w-0">
+                                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                                        <CardTitle className="text-2xl">
+                                            {registration.applicant_name}
+                                        </CardTitle>
+                                        <Badge className="capitalize">
+                                            {registration.status}
+                                        </Badge>
+                                    </div>
+                                    <CardDescription>
+                                        Registration #{registration.id}
+                                    </CardDescription>
+                                    <p className="mt-2 text-sm text-muted-foreground">
+                                        Submitted{' '}
+                                        {formatDate(registration.submitted_at)}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <Button asChild variant="outline">
+                                    <Link href="/registrations">
+                                        <ArrowLeft />
+                                        Back to list
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <Badge className="capitalize">
-                                {registration.status}
-                            </Badge>
-                            <Button asChild variant="outline">
-                                <Link href="/registrations">
-                                    <ArrowLeft />
-                                    Back
-                                </Link>
-                            </Button>
-                        </div>
                     </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                            <SummaryTile
+                                icon={<GraduationCap className="size-4" />}
+                                label="First priority"
+                                value={registration.first_priority}
+                            />
+                            <SummaryTile
+                                icon={<Phone className="size-4" />}
+                                label="Telephone"
+                                value={registration.telephone || 'Not provided'}
+                            />
+                            <SummaryTile
+                                icon={<FileText className="size-4" />}
+                                label="Documents"
+                                value={`${documentCount} of ${registration.documents.length} submitted`}
+                            />
+                            <SummaryTile
+                                icon={<CalendarDays className="size-4" />}
+                                label="Submitted"
+                                value={formatDate(registration.submitted_at)}
+                            />
+                        </div>
+                    </CardContent>
                 </Card>
 
                 <DetailSection title="Personal Information">
@@ -397,56 +462,82 @@ export default function RegistrationShow({
                 </DetailSection>
 
                 <DetailSection
-                    description={`${registration.documents.filter((document) => document.checked || document.file_url).length} submitted`}
+                    description={`${documentCount} of ${registration.documents.length} submitted`}
                     title="Required Documents"
                 >
                     <div className="grid gap-3 md:grid-cols-2">
-                        {registration.documents.map((document) => (
-                            <div
-                                className="flex items-start gap-3 rounded-md border p-3"
-                                key={document.name}
-                            >
-                                {document.checked ? (
-                                    <CheckCircle2 className="mt-0.5 size-4 text-primary" />
-                                ) : (
-                                    <XCircle className="mt-0.5 size-4 text-muted-foreground" />
-                                )}
-                                <div>
-                                    <p className="text-sm font-medium">
-                                        {document.name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        {document.file_url
-                                            ? [
-                                                  document.original_name,
-                                                  formatFileSize(document.size),
-                                              ]
-                                                  .filter(Boolean)
-                                                  .join(' · ')
-                                            : document.checked
-                                              ? 'Marked as submitted'
-                                              : 'Not marked'}
-                                    </p>
-                                    {document.file_url && (
-                                        <Button
-                                            asChild
-                                            className="mt-3"
-                                            size="sm"
-                                            variant="outline"
+                        {registration.documents.map((document) => {
+                            const isUploaded = Boolean(document.file_url);
+                            const isSubmitted = document.checked || isUploaded;
+
+                            return (
+                                <div
+                                    className="rounded-md border bg-background p-3"
+                                    key={document.name}
+                                >
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="flex min-w-0 items-start gap-3">
+                                            {isSubmitted ? (
+                                                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />
+                                            ) : (
+                                                <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                                            )}
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-medium">
+                                                    {document.name}
+                                                </p>
+                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                    {isUploaded
+                                                        ? [
+                                                              document.original_name,
+                                                              formatFileSize(
+                                                                  document.size,
+                                                              ),
+                                                          ]
+                                                              .filter(Boolean)
+                                                              .join(' · ')
+                                                        : document.checked
+                                                          ? 'Marked as submitted'
+                                                          : 'Not marked'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Badge
+                                            variant={
+                                                isSubmitted
+                                                    ? 'secondary'
+                                                    : 'outline'
+                                            }
                                         >
-                                            <a
-                                                href={document.file_url}
-                                                rel="noreferrer"
-                                                target="_blank"
+                                            {isUploaded
+                                                ? 'Uploaded'
+                                                : document.checked
+                                                  ? 'Checked'
+                                                  : 'Missing'}
+                                        </Badge>
+                                    </div>
+                                    {document.file_url && (
+                                        <>
+                                            <Separator className="my-3" />
+                                            <Button
+                                                asChild
+                                                size="sm"
+                                                variant="outline"
                                             >
-                                                <FileText />
-                                                Open file
-                                            </a>
-                                        </Button>
+                                                <a
+                                                    href={document.file_url}
+                                                    rel="noreferrer"
+                                                    target="_blank"
+                                                >
+                                                    <FileText />
+                                                    Open file
+                                                </a>
+                                            </Button>
+                                        </>
                                     )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </DetailSection>
             </div>
