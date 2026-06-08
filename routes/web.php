@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 Route::inertia('/', 'welcome')->name('home');
+Route::inertia('/registration', 'registration')->name('registration');
 Route::post('registrations', [ApplicationRegistrationController::class, 'store'])
     ->name('registrations.store');
 

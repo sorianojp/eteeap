@@ -110,6 +110,6 @@ class ApplicationRegistrationController extends Controller
             'documents' => $documents,
         ]);
 
-        return to_route('home')->with('success', 'Application registration submitted.');
+        return to_route('registration')->with('success', 'Application registration submitted.');
     }
 }
